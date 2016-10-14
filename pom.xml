@@ -17,6 +17,7 @@
 		<pro.jdbc.url><![CDATA[jdbc:mysql://localhost:3306/cms?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull]]></pro.jdbc.url>
 		<pro.jdbc.username>root</pro.jdbc.username>
 		<pro.jdbc.password>root</pro.jdbc.password>
+		<pro.deMode>true</pro.deMode>
 	</properties>
 
 	<profiles>
@@ -33,6 +34,7 @@
 				<pro.jdbc.url><![CDATA[jdbc:mysql://localhost:3306/cms?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull]]></pro.jdbc.url>
 				<pro.jdbc.username>root</pro.jdbc.username>
 				<pro.jdbc.password>root</pro.jdbc.password>
+				<pro.deMode>false</pro.deMode>
 			</properties>
 		</profile>
 		
@@ -49,6 +51,7 @@
 				<pro.jdbc.url><![CDATA[jdbc:mysql://localhost:3306/cms?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull]]></pro.jdbc.url>
 				<pro.jdbc.username>root</pro.jdbc.username>
 				<pro.jdbc.password>root</pro.jdbc.password>
+				<pro.deMode>false</pro.deMode>
 			</properties>
 		</profile>
 	</profiles>
@@ -79,7 +82,7 @@
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
-			<version>6.0.3</version>
+			<version>5.1.38</version>
 		</dependency>
 		<dependency>
 			<groupId>com.alibaba</groupId>
@@ -113,6 +116,11 @@
 		<resources>
 			<resource>
 				<directory>src/main/resources</directory>
+				<includes>
+					<include>*/*</include>
+					<include>*</include>
+				</includes>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
 		<plugins>
