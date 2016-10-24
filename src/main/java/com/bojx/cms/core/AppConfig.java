@@ -3,6 +3,7 @@ package com.bojx.cms.core;
 
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
+import com.bojx.cms.interceptor.LoginIntercepter;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -51,7 +52,7 @@ public class AppConfig extends JFinalConfig {
 
 	@Override
 	public void configInterceptor(Interceptors me) {
-		
+		me.add(new LoginIntercepter());
 
 	}
 

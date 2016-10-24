@@ -11,7 +11,7 @@ public class AppRoutes extends Routes {
 	@Override
 	public void config() {
 		add("test", TestController.class, "test");
-		add("/",LoginController.class,"login");
+		add("/",LoginController.class);
 	}
-
+	
 }
