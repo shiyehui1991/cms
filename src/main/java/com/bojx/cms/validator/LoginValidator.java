@@ -19,8 +19,7 @@ public class LoginValidator extends Validator {
 		Record result=new Record();
 		result.set("code","04");
 		result.set("msg", c.getAttr("msg"));
-		c.render(new JsonRender(result).forIE());
-		
+		c.render(new JsonRender(result).forIE());		
 	}
 
 }

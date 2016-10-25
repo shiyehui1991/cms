@@ -1,6 +1,6 @@
 package com.bojx.cms.web;
 
-
+import com.bojx.cms.render.VelocityLayoutRender;
 
 /**
  * 
@@ -18,11 +18,15 @@ public class UserController extends BaseController {
 		render("center.html");
 	}
 	
+	public void newArticle(){
+		render(new VelocityLayoutRender("editor.html"));
+	}
+	
 	/**
 	 * public article interface
 	 */
 	public void publish(){
-		
+	   
 	}
 	
 }
