@@ -19,11 +19,10 @@ public class LoginIntercepter implements Interceptor {
 	  String username=controller.getCookie("username");
 	  String ssid=controller.getCookie("ssid");
 	  if(username==null || ssid==null ||!EncryptUtil.md5(username).equals(ssid)){
-		  controller.redirect("/login/index");
+		  controller.redirect("/login/index?sendURL="+controller.getRequest().getRequestURI());
 	  }else{
 		  inv.invoke();
 	  }
 	 
 	}
-
 }
