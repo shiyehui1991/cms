@@ -1,22 +1,14 @@
 ﻿<!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="utf-8">
     <title>嘉兴银行CMS</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="">
-
-   
+    <meta name="author" content=""> 
     <link rel="stylesheet" href="assets/css/bootstrap.css">
     <link rel="stylesheet" href="assets/css/signin.css">
   	<link rel="stylesheet" href="sweetalert-1.1.1/sweetalert.css">
-
-
-
-
-
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
@@ -24,12 +16,8 @@
     <!-- Fav and touch icons -->
     <link rel="shortcut icon" href="assets/ico/minus.png">
 </head>
-
 <body> 
-   
-    
     <div class="container">
-
         <div class="" id="login-wrapper">
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
@@ -39,15 +27,13 @@
                         </h1>
                     </div>
                 </div>
-
             </div>
 
             <div class="row">
                 <div class="col-md-4 col-md-offset-4">
                     <div class="account-box"> 
-                        <form role="form" action="">
+                        <form role="form" action="#">
                             <div class="form-group">
-                             
                                 <label for="inputUsernameEmail">用户名</label>
                                 <input type="text" id="inputUsername" class="form-control">
                             </div>
@@ -56,7 +42,9 @@
                                 <label for="inputPassword">密码</label>
                                 <input type="password" id="inputPassword" class="form-control">
                             </div>
-                            
+                            <div class="checkbox pull-left">
+                                <label id="tip" style="color:red;"></label>
+                            </div>
                             <button id="loginSubmit" class="btn btn btn-primary pull-right" type="submit">登 录
                             </button>
                         </form>
@@ -85,26 +73,97 @@
     <script type="text/javascript" src="assets/js/bootstrap.js"></script>
     <script type="text/javascript" src="sweetalert-1.1.1/sweetalert.min.js"></script>
    	<script>
+   		var is_send=false;
+   		var login_submit="/loginPost";
+   		var next_page="/"
    		$(function(){
-   			$("#loginSubmit").click(function(){
-   				var username=$("#inputUsername").val();
-   				var password=$("#inputPassword").val();
+   			$("#loginSubmit").click(function(e){
+   				e.preventDefault();
+   				clear_error_tip();
+   				var _username=$("#inputUsername").val();
+   				var _password=$("#inputPassword").val();
    				
-   				if(username==""){
-   					swal('用户名不能为空');
-   					return false;
+   				if(_username==""){
+   					show_error_tip("用户名不能为空");
+   					return;
    				}
-   				if(password==""){
-   					swal('密码不能为空');
-   					return false;
+   				if(_password==""){
+   					show_error_tip("密码不能为空");
+   					return;
+   				}
+   				var password_msg=validate_password(_password);
+   				if(password_msg!='success'){
+   					show_error_tip(password_msg);
+   					return;
    				}
    				
+   				//发送请求
+   				if (is_send == false) {
+   					submit_btn_on();
+   					$.ajax({
+   						type: 'POST',
+   						url: login_submit,
+   						data: {
+   							'username': _username,
+   							'password': _password,
+   						},
+   						dataType: 'json',
+   						success: function(data) {
+   							submit_btn_off();
+   							if (data.code == '00') {
+   								window.location.href = next_page;
+   							} else {
+   								show_error_tip(data.msg);
+   							}
+   						},
+   						error: function(xhr, type) {
+   							submit_btn_off();
+   							show_error_tip('网络不好请稍后再试');
+   						}
+   					});
+   				}
    				return false;
    			});
    			
    			
    			
    		});
+   		
+   		function validate_password(_password) {
+
+   			var _psVal = $.trim(_password);
+   			var _len = _psVal.length;
+   			var _minLen = 6;
+   			var _maxLen = 15;
+
+   			if (_len < _minLen) {
+   				return '密码最少为6个字符';
+   			} else if (_len > _maxLen) {
+   				return '密码最多为15个字符'
+   			} else if (!(/^[0-9a-zA-Z]+/.test(_psVal))) {
+   				return '密码只能包括字母、数字';
+   			}
+
+   			return 'success';
+   		}
+   		
+   		function show_error_tip(_error) {
+   			$('#tip').html(_error);
+   		}
+
+   		function clear_error_tip() {
+   			$('#tip').html('');
+   		}
+   		
+   		function submit_btn_on() {
+   			$('#loginSubmit').html('正在提交');
+   			is_send = true;
+   		}
+
+   		function submit_btn_off() {
+   			$('#loginSubmit').html('登录');
+   			is_send = false;
+   		}
    	</script>
 </body>
 
