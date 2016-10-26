@@ -1,15 +1,89 @@
- <!-- 加载编辑器的容器 -->
-    <script id="container" name="content" style="height:300px;">
-       
-    </script>
-    
-    <!-- 配置文件 -->
-    <script type="text/javascript" src="/ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.config.js"></script>
-    <!-- 编辑器源码文件 -->
-    <script type="text/javascript" src="/ueditor1_4_3_3-utf8-jsp/utf8-jsp/ueditor.all.js"></script>
-    <!-- 实例化编辑器 -->
-    <script type="text/javascript">
-        var ue = UE.getEditor('container');
-    </script>
-    
-    <button type="button" style="margin:10px auto;display:block;" class="btn btn-primary">发布</button>
+
+<script type="text/javascript" src="/ueditor/ueditor.config.js"></script>
+<script type="text/javascript" src="/ueditor/ueditor.all.js"></script>
+<script type="text/javascript" src="/ueditor/lang/zh-cn/zh-cn.js"></script>
+
+
+<div style="margin:30px;">
+	
+	<form role="form" class="form-horizontal" id="form">
+		<div class="row">
+			<div class="col-sm-5 form-group">
+				<label for="inputEmail3" class="col-sm-2 control-label">标题</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="title"
+						placeholder="请输入标题">
+				</div>
+
+			</div>
+			<div class="col-sm-5 form-group">
+				<label for="inputEmail3" class="col-sm-4 control-label">目标栏目</label>
+				<div class="col-sm-5">
+					<select id="categroy_id"  class="form-control">
+						<option value="1">1</option>
+						<option value="2">2</option>
+					</select>
+				</div>
+
+			</div>
+
+		</div>
+		<script id="editor"></script>
+		<button id ="submit" type="submit" style="margin: 10px auto; display: block;"
+	class="btn btn-primary">发布</button>
+	</form>
+
+</div>
+
+
+<script type="text/javascript">
+	var ue = UE.getEditor('editor');
+	var publish_url="/user/publish";
+	var is_send=false;
+	$(function(){
+		$('#form').attr('novalidate','novalidate').on('submit',function(e){
+			e.preventDefault();
+			var _form=$(this);
+			var _title=$("#title").val();
+			var _categroy_id=$("#categroy_id").val();
+			var _content=ue.getContent();
+			if(_title==''){
+				swal("标题不能为空");
+				return false;
+			}
+			if(_categroy_id==''){
+				swal("目标栏目不能为空");
+				return false;
+			}
+			
+			if(_content==''){
+				swal("内容不能为空");
+				return false;
+			}
+			//发送请求
+				if (is_send == false) {
+					$('#submit').val('正在提交');
+					$.ajax({
+						type: 'POST',
+						url: publish_url,
+						data: {
+							'title': _title,
+							'categroy_id': _categroy_id,
+							'content':_content
+						},
+						dataType: 'json',
+						success: function(data) {
+							$('#submit').val('提交');
+							swal(data.msg);
+						},
+						error: function(xhr, type) {
+							$('#submit').val('提交');
+							swal('网络不好');
+						}
+					});
+				}
+				return false;
+			});
+			
+	});
+</script>

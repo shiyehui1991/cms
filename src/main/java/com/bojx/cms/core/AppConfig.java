@@ -4,6 +4,10 @@ package com.bojx.cms.core;
 import com.alibaba.druid.filter.stat.StatFilter;
 import com.alibaba.druid.wall.WallFilter;
 import com.bojx.cms.interceptor.LoginIntercepter;
+import com.bojx.cms.model.Article;
+import com.bojx.cms.model.Categroy;
+import com.bojx.cms.model.Depart;
+import com.bojx.cms.model.User;
 import com.jfinal.config.Constants;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Interceptors;
@@ -48,6 +52,10 @@ public class AppConfig extends JFinalConfig {
 		arp.setShowSql(getPropertyToBoolean("deMode"));// 开发者模式下开启SQL
 		me.add(arp);
 		
+		arp.addMapping("cms_article", Article.class);
+		arp.addMapping("cms_categroy", Categroy.class);
+		arp.addMapping("cms_user", User.class);
+		arp.addMapping("cms_depart", Depart.class);
 	}
 
 	@Override

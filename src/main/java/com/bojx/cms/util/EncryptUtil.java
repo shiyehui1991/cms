@@ -10,7 +10,7 @@ public class EncryptUtil {
 	public static final String SALT="bojx";
 	
 	public static String md5(String password){
-		return HashKit.md5("password"+SALT);
+		return HashKit.md5(password+SALT);
 	}
 	
 	public static void main(String[] args) {

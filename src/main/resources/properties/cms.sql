@@ -1,14 +1,14 @@
 CREATE TABLE `cms_article` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `categroy_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '栏目ID',
-  `category_name` varchar(50) NOT NULL DEFAULT '' COMMENT '栏目名',
+  `categroy_name` varchar(50) NOT NULL DEFAULT '' COMMENT '栏目名',
   `title` varchar(100) NOT NULL DEFAULT '' COMMENT '标题',
   `content` mediumtext  NOT NULL  COMMENT '内容',
   `user_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
   `user_name` varchar(20) NOT NULL DEFAULT '' COMMENT '用户名',
   `depart_id` int(10) unsigned NOT NULL DEFAULT '0' COMMENT '部门ID',
-  `depart` varchar(20) NOT NULL DEFAULT '' COMMENT '部门名',
-  `is_enabled` char(1) NOT NULL DEFAULT 'N' COMMENT '是否启用',
+  `depart_name` varchar(20) NOT NULL DEFAULT '' COMMENT '部门名',
+  `is_enabled` char(1) NOT NULL DEFAULT 'Y' COMMENT '是否启用',
   `create_time` datetime NOT NULL DEFAULT NOW() COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT NOW() COMMENT '更新时间',
   PRIMARY KEY (`id`),
@@ -56,7 +56,8 @@ CREATE TABLE `cms_user` (
   `create_time` datetime NOT NULL DEFAULT NOW() COMMENT '创建时间',
   `update_time` datetime NOT NULL DEFAULT NOW() COMMENT '更新时间',
   PRIMARY KEY (`id`),
-  KEY `idx_cms_depart_id` (`depart_id`)
+  KEY `idx_cms_depart_id` (`depart_id`),
+  UNIQUE KEY `udx_name` (`name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COMMENT '用户表';
 
 CREATE TABLE `cms_role` (
