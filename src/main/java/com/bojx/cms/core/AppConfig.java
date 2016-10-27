@@ -20,12 +20,10 @@ import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.render.ViewType;
 
 public class AppConfig extends JFinalConfig {
-	public AppConfig() {
-		loadPropertyFile("properties/appconfig.properties","UTF-8");
-	}
-
+	
 	@Override
 	public void configConstant(Constants me) {
+		loadPropertyFile("properties/appconfig.properties","UTF-8");
 		me.setDevMode(getPropertyToBoolean("deMode"));
 		me.setViewType(ViewType.VELOCITY);
 		me.setMaxPostSize(50 * 1024 * 1024);// 上传的文件的最大50M
